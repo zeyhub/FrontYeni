@@ -1,6 +1,5 @@
 const SERVICE_URLS = {
-    BASE_URL: 'https://79e1-159-146-110-47.ngrok-free.app/api',
-    AUTH_URL: 'https://79e1-159-146-110-47.ngrok-free.app/api/auth',
+    BASE_URL: 'https://d2fe-185-225-198-202.ngrok-free.app/api'
 };
 
 export default SERVICE_URLS;

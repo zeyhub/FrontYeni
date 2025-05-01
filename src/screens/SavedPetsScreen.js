@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
-const dummyPets = [
-  {
-    id: '1',
-    name: 'Dostumun Adı',
-    //image: require('../../assets/images/dog.png'), // kendi görselinle değiştir
-  },
-  {
-    id: '2',
-    name: 'Dostumun Adı',
-    //image: require('../../assets/images/cat.png'), // kendi görselinle değiştir
-  },
-];
+import PetService from '../services/pet';
 
 const SavedPetsScreen = () => {
+  const [pets, setPets] = useState([]);
+
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const data = await PetService.getPets();
+        setPets(data);
+      } catch (error) {
+        console.error('Error fetching pets:', error);
+      }
+    };
+
+    fetchPets();
+  }, []);
+
   const renderPet = ({ item }) => (
     <View style={styles.petCard}>
       <Image source={item.image} style={styles.petImage} />
@@ -27,7 +30,7 @@ const SavedPetsScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={dummyPets}
+        data={pets}
         keyExtractor={(item) => item.id}
         renderItem={renderPet}
         contentContainerStyle={{ paddingVertical: 20 }}
