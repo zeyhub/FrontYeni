@@ -21,6 +21,27 @@ const PetService = {
             throw error;
         }
     },
+
+    addPet: async (name, breed, age) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch(SERVICE_URLS.BASE_URL + '/pets', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ name, breed, age }),
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error adding pet:', error);
+            throw error;
+        }
+    },
 }
 
 export default PetService;

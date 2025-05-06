@@ -12,11 +12,29 @@ const AuthService = {
         })
 
         if (!response.ok) {
+            console.error('Login failed:', response.status, response.statusText);
             throw new Error('Login failed');
         }
 
         const data = await response.json();
         await AsyncStorage.setItem('token', data.token);
+        return data;
+    },
+
+    async forgotPassword(email) {
+        const response = await fetch(SERVICE_URLS.BASE_URL + '/auth/forgot-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Request failed');
+        }
+
+        const data = await response.json();
         return data;
     },
 

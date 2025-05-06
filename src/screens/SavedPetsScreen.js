@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react
 import { Ionicons } from '@expo/vector-icons';
 import PetService from '../services/pet';
 
-const SavedPetsScreen = () => {
+const SavedPetsScreen = ({ navigation }) => {
   const [pets, setPets] = useState([]);
 
   useEffect(() => {
@@ -19,6 +19,10 @@ const SavedPetsScreen = () => {
     fetchPets();
   }, []);
 
+  const addPet = () => {
+    navigation.navigate('AddPet');
+  }
+
   const renderPet = ({ item }) => (
     <View style={styles.petCard}>
       <Image source={item.image} style={styles.petImage} />
@@ -29,6 +33,11 @@ const SavedPetsScreen = () => {
 
   return (
     <View style={styles.container}>
+      {pets.length === 0 && (
+        <Text style={{ textAlign: 'center', marginTop: 20, fontSize: 16 }}>
+          Henüz kaydedilmiş dost yok
+        </Text>
+      )}
       <FlatList
         data={pets}
         keyExtractor={(item) => item.id}
@@ -36,7 +45,7 @@ const SavedPetsScreen = () => {
         contentContainerStyle={{ paddingVertical: 20 }}
       />
 
-      <TouchableOpacity style={styles.addButton}>
+      <TouchableOpacity style={styles.addButton} onPress={addPet}>
         <Text style={styles.addButtonText}>Yeni Dost Ekle</Text>
       </TouchableOpacity>
     </View>

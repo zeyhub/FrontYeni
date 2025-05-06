@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 
 const VeterinaryAppointmentScreen = ({ navigation }) => {
+    const pets = [
+        { id: 1, name: 'Milo', type: 'Dog' },
+        { id: 2, name: 'Whiskers', type: 'Cat' },
+    ];
+    const veterinarians = [
+        { id: 1, name: 'Dr. Smith', specialty: 'Dogs' },
+        { id: 2, name: 'Dr. Johnson', specialty: 'Cats' },
+    ];
+    const [selectedPet, setSelectedPet] = useState(null);
+    const [selectedVeterinarian, setSelectedVeterinarian] = useState(null);
     const handleBack = () => {
         navigation.goBack();
     };
     
     return (
         <View style={styles.container}>
-        <View style={styles.header}>
-            <Text style={styles.back} onPress={handleBack}>{'< Geri'}</Text>
-            <Text style={styles.logoText}>🐾 FurEverCare</Text>
-        </View>
-    
-        <View style={styles.content}>
-            <Text style={styles.title}>Veteriner Randevusu</Text>
-            <Text style={styles.description}>Veteriner randevunuzu kolayca alın.</Text>
-        </View>
-    
-        {/* Add your appointment booking form or functionality here */}
-    
+            <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>Veterinary Appointment</Text>
         </View>
     );
     }
@@ -27,34 +26,7 @@ const VeterinaryAppointmentScreen = ({ navigation }) => {
 const styles = {
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 20,
-        backgroundColor: '#f8f8f8',
-    },
-    back: {
-        fontSize: 18,
-        color: '#007BFF',
-        marginRight: 10,
-    },
-    logoText: {
-        fontSize: 24,
-        fontWeight: 'bold',
-    },
-    content: {
-        padding: 20,
-    },
-    title: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    description: {
-        fontSize: 16,
-        color: '#555',
+        backgroundColor: '#EADCF8',
     },
 };
 

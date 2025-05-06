@@ -4,12 +4,12 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList }
 const sliderData = [
   {
     id: '1',
-    //image: require('../../assets/images/slider1.jpg'),
+    image: 'https://www.alleycat.org/wp-content/uploads/2019/03/FELV-cat.jpg',
     title: 'Veteriner Randevunuzu Kolayca Alın',
   },
   {
     id: '2',
-    //image: require('../../assets/images/slider2.jpg'),
+    image: 'https://www.alleycat.org/wp-content/uploads/2019/03/FELV-cat.jpg',
     title: 'Evde Veteriner Hizmeti',
   },
 ];
