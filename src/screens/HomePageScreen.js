@@ -4,23 +4,64 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList }
 const sliderData = [
   {
     id: '1',
-    //image: require('../../assets/images/slider1.jpg'),
+    image: 'https://www.alleycat.org/wp-content/uploads/2019/03/FELV-cat.jpg',
     title: 'Veteriner Randevunuzu Kolayca Alın',
   },
   {
     id: '2',
-    //image: require('../../assets/images/slider2.jpg'),
+    image: 'https://www.alleycat.org/wp-content/uploads/2019/03/FELV-cat.jpg',
     title: 'Evde Veteriner Hizmeti',
   },
 ];
 
-const HomePageScreen = () => {
+const HomePageScreen = ({ navigation }) => {
   const renderSliderItem = ({ item }) => (
     <View style={styles.sliderItem}>
       <Image source={item.image} style={styles.sliderImage} />
       <Text style={styles.sliderText}>{item.title}</Text>
     </View>
   );
+
+  const handleVeterinaryAppointment = () => {
+    console.log('Veterinary appointment booked');
+    navigation.navigate('AppointmentNavigator', {
+      screen: 'VeterinaryAppointment',
+    });
+  }
+
+  const handleHomeCareAppointment = () => {
+    console.log('Home care appointment booked');
+    navigation.navigate('AppointmentNavigator', {
+      screen: 'HomeCareAppointment',
+    });
+  }
+
+  const handleGroomingAppointment = () => {
+    console.log('Grooming appointment booked');
+    navigation.navigate('AppointmentNavigator', {
+      screen: 'GroomingAppointment',
+    });
+  }
+
+  const handleHomeGroomingAppointment = () => {
+    console.log('Home grooming appointment booked');
+    navigation.navigate('AppointmentNavigator', {
+      screen: 'HomeGroomingAppointment',
+    });
+  }
+
+  const handleHotelReservation = () => {
+    console.log('Hotel reservation made');
+    navigation.navigate('AppointmentNavigator', {
+      screen: 'HotelReservation',
+    });
+  }
+  const handleIndividualCaregiver = () => {
+    console.log('Individual caregiver found');
+    navigation.navigate('AppointmentNavigator', {
+      screen: 'IndividualCaregiver',
+    });
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -41,19 +82,19 @@ const HomePageScreen = () => {
       <Text style={styles.sectionTitle}>HİZMETLERİMİZ</Text>
 
       <View style={styles.buttonContainer}>
-        <CustomButton text="Veteriner Randevusu Al" />
-        <CustomButton text="Evde Bakım Randevusu Al" />
-        <CustomButton text="Kuaför Randevusu Al" />
-        <CustomButton text="Evde Kuaför Randevusu Al" />
-        <CustomButton text="Otel Rezervasyonu Yap" />
-        <CustomButton text="Bireysel Bakıcı Bul" />
+        <CustomButton text="Veteriner Randevusu Al" onPress={handleVeterinaryAppointment} />
+        <CustomButton text="Evde Bakım Randevusu Al" onPress={handleHomeCareAppointment} />
+        <CustomButton text="Kuaför Randevusu Al" onPress={handleGroomingAppointment} />
+        <CustomButton text="Evde Kuaför Randevusu Al" onPress={handleHomeGroomingAppointment} />
+        <CustomButton text="Otel Rezervasyonu Yap" onPress={handleHotelReservation} />
+        <CustomButton text="Bireysel Bakıcı Bul" onPress={handleIndividualCaregiver} />
       </View>
     </ScrollView>
   );
 };
 
-const CustomButton = ({ text }) => (
-  <TouchableOpacity style={styles.button}>
+const CustomButton = ({ text, onPress }) => (
+  <TouchableOpacity style={styles.button} onPress={onPress}>
     <Text style={styles.buttonText}>{text}</Text>
   </TouchableOpacity>
 );

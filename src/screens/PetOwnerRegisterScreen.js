@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AuthService from '../services/auth';
 
 const PetOwnerRegisterScreen = ({ navigation }) => {
   const [fullName, setFullName] = useState('');
@@ -15,13 +16,19 @@ const PetOwnerRegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [secureText, setSecureText] = useState(true);
 
-  const handleRegister = () => {
-    console.log('Ad Soyad:', fullName);
-    console.log('E-posta:', email);
-    console.log('Telefon:', phone);
-    console.log('Şifre:', password);
-    navigation.navigate('Verification' , { userType: 'pet_owner' });
-    // Burada backend API bağlantısı yapılacak.
+  const handleRegister = async () => {
+    const [name, surname] = fullName.split(' ');
+    try {
+      let result = await AuthService.registerPetOwner(name, surname, email, phone, password);
+      console.log('Kayıt başarılı:', JSON.stringify(result));
+      if (result.user.id) {
+        navigation.navigate('Verification', { userType: 'pet_owner' });
+      }
+    }
+    catch (error) {
+      console.error('Kayıt hatası:', error);
+      alert('Kayıt işlemi başarısız oldu. Lütfen bilgilerinizi kontrol edin.');
+    }
   };
 
   return (
@@ -41,6 +48,8 @@ const PetOwnerRegisterScreen = ({ navigation }) => {
           style={styles.input}
           value={fullName}
           onChangeText={setFullName}
+          autoCapitalize='words'
+          autoCorrect={false}
         />
       </View>
 
@@ -53,6 +62,7 @@ const PetOwnerRegisterScreen = ({ navigation }) => {
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
+          autoCapitalize='none'
         />
       </View>
 

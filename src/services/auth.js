@@ -1,8 +1,9 @@
 import SERVICE_URLS from "../constants/service_urls";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthService = {
     async login (email, password) {
-        const response = await fetch(SERVICE_URLS.AUTH_URL + '/login', {
+        const response = await fetch(SERVICE_URLS.BASE_URL + '/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -11,21 +12,39 @@ const AuthService = {
         })
 
         if (!response.ok) {
+            console.error('Login failed:', response.status, response.statusText);
             throw new Error('Login failed');
+        }
+
+        const data = await response.json();
+        await AsyncStorage.setItem('token', data.token);
+        return data;
+    },
+
+    async forgotPassword(email) {
+        const response = await fetch(SERVICE_URLS.BASE_URL + '/auth/forgot-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Request failed');
         }
 
         const data = await response.json();
         return data;
     },
 
-    // Kullanıcı kaydı (register)
-    async register(fullName, email, phone, password) {
-        const response = await fetch(SERVICE_URLS.AUTH_URL + '/register', {
+    async registerPetOwner(name, surname, email, phone_number, password) {
+        const response = await fetch(SERVICE_URLS.BASE_URL + '/auth/register/petowner', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ fullName, email, phone, password }),
+            body: JSON.stringify({ name, surname, email, phone_number, password }),
         });
 
         if (!response.ok) {
@@ -36,68 +55,68 @@ const AuthService = {
         return data;
     },
 
-    // E-posta doğrulama isteği gönder (isteğe bağlı)
-    async sendVerificationEmail(email) {
-        const response = await fetch(SERVICE_URLS.AUTH_URL + '/send-verification-email', {
+    async registerVeterinarian(name, surname, email, phone_number, password, clinic_name, district, neighborhood, tax_document) {
+        const response = await fetch(SERVICE_URLS.BASE_URL + '/auth/register/veterinarian', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ name, surname, email, phone_number, password, clinic_name, district, neighborhood, tax_document }),
         });
 
         if (!response.ok) {
-            throw new Error('Verification email sending failed');
+            throw new Error('Register failed');
         }
 
         const data = await response.json();
         return data;
     },
 
-    // Token ile e-posta doğrulama
-    async verifyEmail(token) {
-        const response = await fetch(SERVICE_URLS.AUTH_URL + `/verify-email/${token}`, {
-            method: 'GET',
+    async registerGroomer(name, surname, email, phone_number, password, groomer_name, district, neighborhood, lisence_document) {
+        const response = await fetch(SERVICE_URLS.BASE_URL + '/auth/register/groomer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, surname, email, phone_number, password, groomer_name, district, neighborhood, lisence_document })
         });
 
         if (!response.ok) {
-            throw new Error('Email verification failed');
+            throw new Error('Register failed');
         }
 
         const data = await response.json();
         return data;
     },
 
-    // Şifremi unuttum (şifre sıfırlama e-postası gönderme)
-    async forgotPassword(email) {
-        const response = await fetch(SERVICE_URLS.AUTH_URL + '/forgot-password', {
+    async registerHotel(name, surname, email, phone_number, password, hotel_name, district, neighborhood, lisence_document) {
+        const response = await fetch(SERVICE_URLS.BASE_URL + '/auth/register/hotel', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ name, surname, email, phone_number, password, hotel_name, district, neighborhood, lisence_document })
         });
 
         if (!response.ok) {
-            throw new Error('Forgot password failed');
+            throw new Error('Register failed');
         }
 
         const data = await response.json();
         return data;
     },
 
-    // Şifre sıfırlama işlemi (kullanıcı yeni şifreyi gönderir)
-    async resetPassword(token, newPassword) {
-        const response = await fetch(SERVICE_URLS.AUTH_URL + `/reset-password/${token}`, {
+    async registerCaregiver(name, surname, email, phone_number, password, district, neighborhood) {
+        const response = await fetch(SERVICE_URLS.BASE_URL + '/auth/register/caregiver', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ password: newPassword }),
+            body: JSON.stringify({ name, surname, email, phone_number, password, district, neighborhood })
         });
 
         if (!response.ok) {
-            throw new Error('Password reset failed');
+            throw new Error('Register failed');
         }
 
         const data = await response.json();
@@ -106,11 +125,3 @@ const AuthService = {
 };
 
 export default AuthService;
-
-
-
-    // register service
-    // send-verification-email
-    // verify-email/:token
-    // forgot-password
-    // reset-password

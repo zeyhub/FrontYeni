@@ -6,7 +6,10 @@ import {
   Image,
   StyleSheet,
   FlatList,
+  SafeAreaView,
+  StatusBar,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const userTypes = [
   {
@@ -65,22 +68,34 @@ const UserTypeSelectScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>KULLANICI TÜRÜNÜ SEÇİNİZ</Text>
-      <FlatList
-        data={userTypes}
-        numColumns={2}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={styles.grid}
-      />
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#EADCF8' }}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Icon name="arrow-left" size={24} color="#000" />
+        <Text style={{ fontSize: 16, color: '#000' }}>Geri</Text>
+      </TouchableOpacity>
+      <View style={styles.container}>
+        <Text style={styles.title}>KULLANICI TÜRÜNÜ SEÇİNİZ</Text>
+        <FlatList
+          data={userTypes}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          contentContainerStyle={styles.grid}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default UserTypeSelectScreen;
 
 const styles = StyleSheet.create({
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    left: 20,
+    zIndex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: '#EADCF8',

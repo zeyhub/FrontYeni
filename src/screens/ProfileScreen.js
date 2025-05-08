@@ -3,6 +3,21 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const ProfileScreen = ({ navigation }) => {
+  const handleProfileDetailPress = () => {
+    navigation.navigate('ProfileDetail');
+  }
+
+  const handleSavedPetsPress = () => {
+    navigation.navigate('SavedPets');
+  }
+
+  const handleAddressesPress = () => {
+    navigation.navigate('SavedAddress');
+  }
+
+  const handleServiceHistoryPress = () => {
+    navigation.navigate('ServiceHistory');
+  }
   return (
     <View style={styles.container}>
       {/* Üst Kısım */}
@@ -19,22 +34,22 @@ const ProfileScreen = ({ navigation }) => {
       </View>
 
       {/* Seçenekler */}
-      <TouchableOpacity style={styles.option}>
+      <TouchableOpacity style={styles.option} onPress={handleProfileDetailPress}>
         <Text style={styles.optionText}>Hesap Bilgilerim</Text>
         <Ionicons name="chevron-forward" size={20} color="#000" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('SavedPets')}>
+      <TouchableOpacity style={styles.option} onPress={handleSavedPetsPress}>
         <Text style={styles.optionText}>Kayıtlı Dostlarım</Text>
         <Ionicons name="chevron-forward" size={20} color="#000" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
+      <TouchableOpacity style={styles.option} onPress={handleAddressesPress}>
         <Text style={styles.optionText}>Adreslerim</Text>
         <Ionicons name="chevron-forward" size={20} color="#000" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
+      <TouchableOpacity style={styles.option} onPress={handleServiceHistoryPress}>
         <Text style={styles.optionText}>Hizmet Geçmişim</Text>
         <Ionicons name="chevron-forward" size={20} color="#000" />
       </TouchableOpacity>

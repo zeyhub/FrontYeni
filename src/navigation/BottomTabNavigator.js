@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import HomePageScreen from '../screens/HomePageScreen';
 import NotificationsScreen from '../screens/NotificationsScreen'; // boş ekranla başla istersen
-import ProfileScreen from '../screens/ProfileScreen'; // kullanıcı profili veya ayar ekranı
+import ProfileNavigator from './ProfileNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +32,7 @@ const BottomTabNavigator = () => {
     >
       <Tab.Screen name="Anaekran" component={HomePageScreen} />
       <Tab.Screen name="Bildirimler" component={NotificationsScreen} />
-      <Tab.Screen name="Hesabım" component={ProfileScreen} />
+      <Tab.Screen name="Hesabım" component={ProfileNavigator} />
     </Tab.Navigator>
   );
 };

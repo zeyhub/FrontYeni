@@ -1,82 +1,47 @@
 import SERVICE_URLS from "../constants/service_urls";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PetService = {
-  //  Yeni evcil hayvan ekle
-  async create(petData) {
-    const response = await fetch(`${SERVICE_URLS.BASE_URL}/pets`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(petData),
-    });
+    getPets: async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch(SERVICE_URLS.BASE_URL + '/pets', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching pets:', error);
+            throw error;
+        }
+    },
 
-    if (!response.ok) {
-      throw new Error("Evcil hayvan eklenemedi.");
-    }
-
-    return await response.json();
-  },
-
-  //  ID ile pet getir
-  async getById(id) {
-    const response = await fetch(`${SERVICE_URLS.BASE_URL}/pets/${id}`);
-
-    if (!response.ok) {
-      throw new Error("Evcil hayvan bilgisi alınamadı.");
-    }
-
-    return await response.json();
-  },
-
-  // Kullanıcıya ait tüm pet'leri getir
-  async getByOwner(ownerId) {
-    const response = await fetch(`${SERVICE_URLS.BASE_URL}/pets/owner/${ownerId}`);
-
-    if (!response.ok) {
-      throw new Error("Evcil hayvanlar getirilemedi.");
-    }
-
-    return await response.json();
-  },
-
-  // Güncelle
-  async update(id, updatedData) {
-    const response = await fetch(`${SERVICE_URLS.BASE_URL}/pets/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    });
-
-    if (!response.ok) {
-      throw new Error("Evcil hayvan bilgisi güncellenemedi.");
-    }
-
-    return await response.json();
-  },
-
-  //  Sil
-  async delete(id) {
-    const response = await fetch(`${SERVICE_URLS.BASE_URL}/pets/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error("Evcil hayvan silinemedi.");
-    }
-
-    return await response.json();
-  },
-};
+    addPet: async (name, breed, age) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch(SERVICE_URLS.BASE_URL + '/pets', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ name, breed, age }),
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error adding pet:', error);
+            throw error;
+        }
+    },
+}
 
 export default PetService;
-    // create pet 
-    // get pets
-
-    // get pet by id
-    // update pet by id
-    // delete pet by id
-
-

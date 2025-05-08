@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AuthService from '../services/auth';
 
 const CaregiverRegisterScreen = ({ navigation }) => {
   const [fullName, setFullName] = useState('');
@@ -18,14 +19,21 @@ const CaregiverRegisterScreen = ({ navigation }) => {
   const [neighborhood, setNeighborhood] = useState('');
   const [secureText, setSecureText] = useState(true);
 
-  const handleRegister = () => {
-    console.log('Ad Soyad:', fullName);
-    console.log('E-posta:', email);
-    console.log('Telefon:', phone);
-    console.log('Şifre:', password);
+  const handleRegister = async () => {
     console.log('İlçe:', district);
     console.log('Mahalle:', neighborhood);
-    navigation.navigate('Verification' , { userType: 'caregiver' });
+    const [name, surname] = fullName.split(' ');
+    try {
+      let result = await AuthService.registerCaregiver(name, surname, email, phone, password, district, neighborhood);
+      console.log('Kayıt başarılı:', JSON.stringify(result));
+      if (result.user.id) {
+        navigation.navigate('Verification' , { userType: 'caregiver' });
+      }
+    }
+    catch (error) {
+      console.error('Kayıt hatası:', error);
+      alert('Kayıt işlemi başarısız oldu. Lütfen bilgilerinizi kontrol edin.');
+    }
   };
 
   return (

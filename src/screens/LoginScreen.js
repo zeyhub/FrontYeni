@@ -31,6 +31,11 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
+  const handleForgotPassword = () => {
+    console.log('Şifremi unuttum');
+    navigation.navigate('ForgotPassword');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>KULLANICI GİRİŞİ</Text>
@@ -44,6 +49,8 @@ const LoginScreen = ({ navigation }) => {
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
         />
       </View>
 
@@ -56,6 +63,8 @@ const LoginScreen = ({ navigation }) => {
           value={password}
           onChangeText={setPassword}
           secureTextEntry={secureText}
+          autoCapitalize="none"
+          autoCorrect={false}
         />
         <TouchableOpacity onPress={() => setSecureText(!secureText)}>
           <Icon
@@ -81,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.rememberText}> Beni Hatırla</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleForgotPassword}>
           <Text style={styles.forgotText}>Şifremi unuttum</Text>
         </TouchableOpacity>
       </View>

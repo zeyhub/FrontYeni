@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AuthService from '../services/auth';
 
 const VeterinarianRegisterScreen = ({ navigation }) => {
   const [fullName, setFullName] = useState('');
@@ -20,16 +21,24 @@ const VeterinarianRegisterScreen = ({ navigation }) => {
   const [taxDocument, setTaxDocument] = useState('');
   const [secureText, setSecureText] = useState(true);
 
-  const handleRegister = () => {
-    console.log('Ad Soyad:', fullName);
-    console.log('E-posta:', email);
-    console.log('Telefon:', phone);
-    console.log('Şifre:', password);
+  const handleRegister = async () => {
     console.log('Klinik Adı:', clinicName);
     console.log('İlçe:', district);
     console.log('Mahalle:', neighborhood);
     console.log('Vergi Levhası:', taxDocument);
-    navigation.navigate('Verification' , { userType: 'veterinarian' });
+    const [name, surname] = fullName.split(' ');
+    try {
+      let result = await AuthService.registerVeterinarian(name, surname, email, phone, password, clinicName, district, neighborhood, taxDocument);
+      console.log('Kayıt başarılı:', JSON.stringify(result));
+      if (result.user.id) {
+        navigation.navigate('Verification' , { userType: 'veterinarian' });
+      }
+    }
+    catch (error) {
+      console.error('Kayıt hatası:', error);
+      alert('Kayıt işlemi başarısız oldu. Lütfen bilgilerinizi kontrol edin.');
+    }
+    
   };
 
   return (
